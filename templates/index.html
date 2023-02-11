@@ -8,14 +8,39 @@
     </head>
 
     <body>
-        <form action="/search-result" method="POST">
+        <form action="/search-result" method="POST" class="form">
             <label for="imput">Enter Pokemon Name</label><br>
-            <input type="text" id="input" name="input" placeholder="Pokemon Name" value="Bulbasaur">
+            <input type="text" id="input" name="input" placeholder="Pokemon Name">
             <input type="submit" value="send">
         </form>
 
-        <div>
-            {% print(response) %}
+        <!-- <div class="information-block">
+            {% for item in pkmn_info %}
+                <p class="information">{{ item }}: {{ pkmn_info.get(item) }}</p>
+            {% endfor %}
+        </div> -->
+
+        <div class="information-block">
+            {% for item in pkmn_info %}
+                {% if item == "Types" %}
+                    {% for type in pkmn_info.get(item) %}
+                        <p class="information">{{ item }}: 
+                            <span color="{{ type_colors.get(type) }}">{{ pkmn_info.get(item) }}</span></p>
+                    {% endfor %}
+                {% else %}
+                    <p class="information">{{ item }}: {{ pkmn_info.get(item) }}</p>
+                {% endif %}
+
+            {% endfor %}
         </div>
+
+        <div class="images">
+            <p class="image-name">Normal Version:</p>
+            <img width ="10%" src="{{ pkmn_images[0] }}">
+
+            <p class="image-name">Shiny Version:</p>
+            <img width ="10%" src="{{ pkmn_images[1] }}">
+        </div>
+
     </body>
 </html>
