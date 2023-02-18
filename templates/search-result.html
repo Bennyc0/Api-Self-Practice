@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Api Self Practice</title>
+        <link rel="stylesheet" href="/static/styles.css">
+    </head>
+
+    <body>
+        <form action="/search-result" method="POST" class="search-block">
+            <label for="input">Enter Pokemon Name</label><br>
+            <input class="search-box" id="input" type="text" name="input" placeholder="Pokemon Name">
+            <input class="search-button" type="submit" value="Search">
+        </form>
+
+        <div class="information-block">
+            {% for item in pkmn_info %}
+                {% if item.lower() == "types" %}
+                    <p class="information info-{{ item.lower() }}">{{ item }}:
+                    {% for type in pkmn_info.get(item) %}
+                        <span class="type-{{ type }}">{{ type }}</span>
+                    {% endfor %}
+                    </p>
+
+                {% else %}
+                    <p class="information type-{{ item.lower() }}">{{ item }}: {{ pkmn_info.get(item) }}</p>
+
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <div class="sprites-gallery">
+            <p class="sprites-name">Normal Version:</p>
+            <img class="sprites-img" src="{{ normal_sprite }}">
+
+            <p class="sprites-name">Shiny Version:</p>
+            <img class="sprites-img" src="{{ shiny_sprite }}">
+        </div>
+
+    </body>
+</html>

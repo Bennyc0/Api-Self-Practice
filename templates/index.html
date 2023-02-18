@@ -4,43 +4,18 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Api Self Practice</title>
-        <link rel="stylesheet" href="/static/style.css">
+        <link rel="stylesheet" href="/static/styles.css">
     </head>
 
     <body>
-        <form action="/search-result" method="POST" class="form">
-            <label for="imput">Enter Pokemon Name</label><br>
-            <input type="text" id="input" name="input" placeholder="Pokemon Name">
-            <input type="submit" value="send">
+        <form action="/search-result" method="POST" class="pkmn-search">
+            <label for="input">Enter Pokemon Name</label><br>
+            <input class="input-box" id="input" type="text" name="input" placeholder="Pokemon Name">
+            <input class="search-button" type="submit" value="Search">
         </form>
 
-        <!-- <div class="information-block">
-            {% for item in pkmn_info %}
-                <p class="information">{{ item }}: {{ pkmn_info.get(item) }}</p>
-            {% endfor %}
-        </div> -->
-
-        <div class="information-block">
-            {% for item in pkmn_info %}
-                {% if item == "Types" %}
-                    {% for type in pkmn_info.get(item) %}
-                        <p class="information">{{ item }}: 
-                            <span color="{{ type_colors.get(type) }}">{{ pkmn_info.get(item) }}</span></p>
-                    {% endfor %}
-                {% else %}
-                    <p class="information">{{ item }}: {{ pkmn_info.get(item) }}</p>
-                {% endif %}
-
-            {% endfor %}
+        <div class="pokedex-image">
+            <img src="https://i.pinimg.com/originals/ef/ff/65/efff65ee37b35ea3b4df426ad32b1097.png">
         </div>
-
-        <div class="images">
-            <p class="image-name">Normal Version:</p>
-            <img width ="10%" src="{{ pkmn_images[0] }}">
-
-            <p class="image-name">Shiny Version:</p>
-            <img width ="10%" src="{{ pkmn_images[1] }}">
-        </div>
-
     </body>
 </html>
