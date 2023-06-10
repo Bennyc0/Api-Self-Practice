@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Api Self Practice</title>
+        <title>Simple Pokedex</title>
         <link rel="stylesheet" href="/static/styles.css">
     </head>
 
@@ -11,10 +11,13 @@
         <div>
             <a href="/login"><button>Log In</button></a>
             <a href="/signup"><button>Sign up here!</button></a>
+            {% if current_user != "" %}
+                <a href="/loadouts"><button>View Your Saved Loadouts</button></a>
+            {% endif %}
         </div>
 
         <p>{{ welcome_message }}</p>
-        
+
         <form action="/search-result" method="POST" class="pkmn-search">
             <label for="input">Enter Pokemon Name</label><br>
             <input class="input-box" id="input" type="text" name="input" placeholder="Pokemon Name">

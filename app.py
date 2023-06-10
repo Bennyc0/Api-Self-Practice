@@ -17,7 +17,7 @@ def home():
     if current_user != "":
         welcome_message = f"Hello there {current_user}! Welcome to Simple Pokedex"
 
-    return render_template("home.html", welcome_message=welcome_message)
+    return render_template("home.html", current_user=current_user, welcome_message=welcome_message)
 
 
 # ---------- Login/Signup ----------
@@ -90,14 +90,48 @@ def loadouts():
     user_rowid = dbf.get_user_rowid(current_email)
     user_loadouts = dbf.find_user_loadouts(user_rowid)
 
-    return render_template('loadouts.html', loadouts=user_loadouts)
+    return render_template('loadouts.html', current_user=current_user, loadouts=user_loadouts)
 
 # ===== Create/Edit/Delete In Development =====
-@app.route("/new-loadout")
+@app.route("/new-loadout", methods=['POST'])
+def new_loadout():
+    global current_email
 
-@app.route("/edit-loadout")
+    loadout = [
+        slot_1 := request.form['slot_1'],
+        slot_2 := request.form['slot_2'],
+        slot_3 := request.form['slot_3'],
+        slot_4 := request.form['slot_4'],
+        slot_5 := request.form['slot_5'],
+        slot_6 := request.form['slot_6']
+    ]
 
-@app.route("/delete-loadout")
+    normal_sprites = []
+
+    for pokemon in loadout:
+        search_name = pokemon.replace(" ", "-")
+
+        try:
+            data = requests.get(f"https://pokeapi.co/api/v2/pokemon/{search_name}").json()
+            normal_sprites.append(data['sprites']['other']['official-artwork']['front_default'])
+        except :
+            normal_sprites.append("N/A")
+
+    dbf.save_loadout(current_email, loadout, normal_sprites)
+
+    return redirect(url_for('loadouts'))
+
+# @app.route("/edit-loadout/<rowid>")
+# def edit_loadout(rowid):
+
+
+# @app.route("process-edit-loadout/<rowid>", methods=['POST'])
+# def process_edit_loadout(rowid):
+
+
+# @app.route("/delete-loadout/<rowid>")
+# def delete_loadout(rowid):
+
 
 # ---------- Search Result ----------
 @app.route("/search-result", methods=['GET', 'POST'])

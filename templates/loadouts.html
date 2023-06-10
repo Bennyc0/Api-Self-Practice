@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Pokedex</title>
+</head>
+<body>
+    <div>
+        <form action="/new-loadout" method="POST">
+            <div>
+                <label for="slot_1">Enter Pokemon #1</label>
+                <input type="text" id="slot_1" name="slot_1" placeholder="Type Pokemon Name Here">
+            </div>
+
+            <div>
+                <label for="slot_2">Enter Pokemon #2</label>
+                <input type="text" id="slot_2" name="slot_2" value="Empty">
+            </div>
+
+            <div>
+                <label for="slot_3">Enter Pokemon #3</label>
+                <input type="text" id="slot_3" name="slot_3" value="Empty">
+            </div>
+
+            <div>
+                <label for="slot_4">Enter Pokemon #4</label>
+                <input type="text" id="slot_4" name="slot_4" value="Empty">
+            </div>
+
+            <div>
+                <label for="slot_5">Enter Pokemon #5</label>
+                <input type="text" id="slot_5" name="slot_5" value="Empty">
+            </div>
+
+            <div>
+                <label for="slot_6">Enter Pokemon #6</label>
+                <input type="text" id="slot_6" name="slot_6" value="Empty">
+            </div>
+            
+            <input type="submit" value="Add Loadout">
+        </form>
+    </div>
+
+    <h1>Loadouts for {{ current_user }}</h1>
+
+    <div>
+        <a href="/"><button>Home</button></a>
+        <a href="/logout"><button>Logout</button></a>
+    </div>
+
+    <table>
+        <tr>
+        <th>Slot 1</th>
+        <th>Slot 2</th>
+        <th>Slot 3</th>
+        <th>Slot 4</th>
+        <th>Slot 5</th>
+        <th>Slot 6</th>
+        <th>Edit/Delete</th>
+        </tr>
+        {% for instance in loadouts %}
+            <tr>
+                <td>{{ instance["slot_1"] }} {{ instance["sprite_1"] }}</td>
+                <td>{{ instance["slot_2"] }} {{ instance["sprite_2"] }}</td>
+                <td>{{ instance["slot_3"] }} {{ instance["sprite_3"] }}</td>
+                <td>{{ instance["slot_4"] }} {{ instance["sprite_4"] }}</td>
+                <td>{{ instance["slot_5"] }} {{ instance["sprite_5"] }}</td>
+                <td>{{ instance["slot_6"] }} {{ instance["sprite_6"] }}</td>
+
+                <td>
+                    <a href="{{ '/edit/%s' %instance.rowid }}"><button>Edit Loadout</button></a>
+                    <a href="{{ '/delete/%s' %instance.rowid }}"><button>Delete Loadout</button></a>
+                </td>
+
+            </tr>
+        {% endfor %}
+    </table>  
+</div>
+</body>
+</html>

@@ -82,13 +82,14 @@ def find_user_loadouts(rowid):
 
     return loadouts
 
-def save_loadout(email, loadout_list):
+def save_loadout(email, loadout_list, normal_sprites):
     connect = sqlite3.connect(database_link)
     cursor = connect.cursor()
 
     user_rowid = get_user_rowid(email)
 
-    cursor.execute('INSERT INTO loadouts(user_id, slot_1, slot_2, slot_3, slot_4, slot_5, slot_6) VALUES (?, ?, ?, ?, ?, ?, ?)', (user_rowid, loadout_list[0], loadout_list[1], loadout_list[2], loadout_list[3], loadout_list[4], loadout_list[5],))
+    # Slots Are Pokemon Names, Sprites Are That Pokemon's Sprite
+    cursor.execute('INSERT INTO loadouts(user_id, slot_1, sprite_1, slot_2, sprite_2, slot_3, sprite_3, slot_4, sprite_4, slot_5, sprite_5, slot_6, sprite_6) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', (user_rowid, loadout_list[0], normal_sprites[0], loadout_list[1], normal_sprites[1], loadout_list[2], normal_sprites[2], loadout_list[3], normal_sprites[3], loadout_list[4], normal_sprites[4], loadout_list[5], normal_sprites[5],))
 
     connect.commit()
     connect.close()
