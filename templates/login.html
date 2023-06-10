@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <p>Log in as an existing user</p>
+        <p>{{ message }}</p>
+
+        <div>
+            <form action="/verify-user" method="POST">
+                <input type="email" name="email" placeholder="Enter your email">
+                <input type="password" name="password" placeholder="Enter your password">
+                <button type="submit">Log in</button>
+            </form>
+        </div>
+        <div>
+            <a href="/"><button>Home</button></a>
+            <p>Don't have an account? <a href="/signup"><button>Sign up here!</button></a></p>
+        </div>
+    </div>
+</body>
+</html>

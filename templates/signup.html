@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p>Sign up as a new user</p>
+    <div>
+        <form action="/store-user" method="POST">
+            <input type="text" name="username" placeholder="Enter a username">
+            <input type="email" name="email" placeholder="Enter your email">
+            <input type="password" name="password" placeholder="Enter a password">
+            <button type="submit">Sign Up</button>
+        </form>
+    </div>
+
+    <div>
+        <a href="/"><button>Home</button></a>
+        <p>Already have an account? <a href="/login"><button>Log In</button></a></p>
+    </div>
+</body>
+</html>

@@ -8,6 +8,12 @@
     </head>
 
     <body>
+        <div>
+            <a href="/"><button>Home</button></a>
+            <a href="/login"><button>Log In</button></a>
+            <a href="/signup"><button>Sign up here!</button></a>
+        </div>
+        
         <form action="/search-result" method="POST" class="search-block">
             <label for="input">Enter Pokemon Name</label><br>
             <input class="search-box" id="input" type="text" name="input" placeholder="Pokemon Name">
@@ -16,10 +22,10 @@
 
         <div class="information-block">
             {% for item in pkmn_info %}
-                {% if item.lower() == "types" %}
+                {% if item == "Types" or item == "Weak to" or item == "Immune to" %}
                     <p class="information info-{{ item.lower() }}">{{ item }}:
                     {% for type in pkmn_info.get(item) %}
-                        <span class="type-{{ type }}">{{ type }}</span>
+                        <span class="type-{{ type.lower() }}">{{ type }}</span>
                     {% endfor %}
                     </p>
 
@@ -37,6 +43,5 @@
             <p class="sprites-name">Shiny Version:</p>
             <img class="sprites-img" src="{{ shiny_sprite }}">
         </div>
-
     </body>
 </html>

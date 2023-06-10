@@ -8,14 +8,22 @@
     </head>
 
     <body>
+        <div>
+            <a href="/login"><button>Log In</button></a>
+            <a href="/signup"><button>Sign up here!</button></a>
+        </div>
+
+        <p>{{ welcome_message }}</p>
+        
         <form action="/search-result" method="POST" class="pkmn-search">
             <label for="input">Enter Pokemon Name</label><br>
             <input class="input-box" id="input" type="text" name="input" placeholder="Pokemon Name">
             <input class="search-button" type="submit" value="Search">
         </form>
+        <p style="color:red;">{{ message }}</p>
 
         <div class="pokedex-image">
-            <img src="https://i.pinimg.com/originals/ef/ff/65/efff65ee37b35ea3b4df426ad32b1097.png">
+            <img src="">
         </div>
     </body>
 </html>
