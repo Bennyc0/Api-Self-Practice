@@ -82,15 +82,19 @@ def logout():
     return render_template('login.html', message='Successfully Logged Out!')
 
 # ---------- Loadouts ----------
-@app.route("/loadouts")
+@app.route("/loadouts", methods=['GET', 'POST'])
 def loadouts():
     global current_user
     global current_email
 
-    user_rowid = dbf.get_user_rowid(current_email)
-    user_loadouts = dbf.find_user_loadouts(user_rowid)
+    if request.method == 'GET' or request.method == 'POST':
+        user_rowid = dbf.get_user_rowid(current_email)
+        user_loadouts = dbf.find_user_loadouts(user_rowid)
 
-    return render_template('loadouts.html', current_user=current_user, loadouts=user_loadouts)
+    if current_user != "":
+        return render_template('loadouts.html', current_user=current_user, user_loadouts=user_loadouts)
+    else:
+        return redirect(url_for('home'))
 
 # ===== Create/Edit/Delete In Development =====
 @app.route("/new-loadout", methods=['POST'])
@@ -98,24 +102,28 @@ def new_loadout():
     global current_email
 
     loadout = [
-        slot_1 := request.form['slot_1'],
-        slot_2 := request.form['slot_2'],
-        slot_3 := request.form['slot_3'],
-        slot_4 := request.form['slot_4'],
-        slot_5 := request.form['slot_5'],
-        slot_6 := request.form['slot_6']
+        slot_1 := request.form['slot_1'].title().strip(),
+        slot_2 := request.form['slot_2'].title().strip(),
+        slot_3 := request.form['slot_3'].title().strip(),
+        slot_4 := request.form['slot_4'].title().strip(),
+        slot_5 := request.form['slot_5'].title().strip(),
+        slot_6 := request.form['slot_6'].title().strip()
     ]
 
     normal_sprites = []
 
     for pokemon in loadout:
-        search_name = pokemon.replace(" ", "-")
+        search_name = pokemon.lower().replace(" ", "-")
 
         try:
-            data = requests.get(f"https://pokeapi.co/api/v2/pokemon/{search_name}").json()
-            normal_sprites.append(data['sprites']['other']['official-artwork']['front_default'])
-        except :
-            normal_sprites.append("N/A")
+            if search_name != "empty":
+                data = requests.get(f"https://pokeapi.co/api/v2/pokemon/{search_name}").json()
+                sprite = data['sprites']['other']['official-artwork']['front_default']
+                normal_sprites.append(sprite)
+            else:
+                normal_sprites.append("/static/images/Blank.jpeg")
+        except:
+            normal_sprites.append("/static/images/Blank.jpeg")
 
     dbf.save_loadout(current_email, loadout, normal_sprites)
 
@@ -129,9 +137,11 @@ def new_loadout():
 # def process_edit_loadout(rowid):
 
 
-# @app.route("/delete-loadout/<rowid>")
-# def delete_loadout(rowid):
+@app.route("/delete-loadout/<rowid>")
+def delete_loadout(rowid):
+    dbf.delete_loadout(rowid)
 
+    return redirect(url_for('loadouts'))
 
 # ---------- Search Result ----------
 @app.route("/search-result", methods=['GET', 'POST'])
@@ -142,7 +152,7 @@ def search_result():
     try:
         data = requests.get(f"https://pokeapi.co/api/v2/pokemon/{search_name}").json()
     except :
-        return render_template('index.html', message="No Search Results Found, Check Your Spelling")
+        return render_template('search-result.html', message="No Search Results Found, Check Your Spelling")
 
     # Empty Lists
     lists = [

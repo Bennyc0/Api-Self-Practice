@@ -9,10 +9,13 @@
 
     <body>
         <div>
-            <a href="/login"><button>Log In</button></a>
-            <a href="/signup"><button>Sign up here!</button></a>
-            {% if current_user != "" %}
+            {% if current_user == "" %}
+                <a href="/login"><button>Log In</button></a>
+                <a href="/signup"><button>Sign up here!</button></a>
+
+            {% else %}
                 <a href="/loadouts"><button>View Your Saved Loadouts</button></a>
+                <a href="logout"><button>Log Out</button></a>
             {% endif %}
         </div>
 

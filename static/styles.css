@@ -99,3 +99,9 @@ body {
   border-radius: 15px;
   outline: 5px solid #3B4CCA;
 }
+
+/* Saved Loadouts */
+.loadout-img {
+  width: 50px;
+  height: 50px;
+}
