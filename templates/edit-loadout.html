@@ -8,6 +8,17 @@
     <title>Simple Pokedex</title>
 </head>
 <body>
-    
+    <div>
+        <form action="{{ '/process-edit/%s' %row_information.rowid }} " method='POST'>
+            <a href="/home"><button class="btn"><i class="fa fa-arrow-left"></i> Back</button></a>
+            <input type="text" name="slot_1" value="{{ row_information['slot_1'] }}">
+            <input type="text" name="slot_2" value="{{ row_information['slot_2'] }}">
+            <input type="text" name="slot_3" value="{{ row_information['slot_3'] }}">
+            <input type="text" name="slot_4" value="{{ row_information['slot_4'] }}">
+            <input type="text" name="slot_5" value="{{ row_information['slot_5'] }}">
+            <input type="text" name="slot_6" value="{{ row_information['slot_6'] }}">
+            <input type="submit" value="Make Edit">
+        </form>
+    </div>
 </body>
 </html>

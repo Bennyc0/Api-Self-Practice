@@ -1,13 +1,36 @@
 from flask import Flask, render_template, request, redirect, url_for
 import requests
-
 import database_functions as dbf
 
 app = Flask(__name__)
 current_user = ""
 current_email = ""
 
+
+# ---------- Functions ----------
+def get_normal_sprites(loadout):
+    normal_sprites = []
+
+    for pokemon in loadout:
+        search_name = pokemon.lower().replace(" ", "-")
+
+        try:
+            print(search_name)
+            if search_name != "empty":
+                data = requests.get(f"https://pokeapi.co/api/v2/pokemon/{search_name}").json()
+                sprite = data['sprites']['other']['official-artwork']['front_default']
+                normal_sprites.append(sprite)
+                print(sprite)
+            else:
+                normal_sprites.append("/static/images/Blank.jpeg")
+        except:
+            normal_sprites.append("/static/images/Blank.jpeg")
+    
+    return normal_sprites
+
+
 # ---------- Homepage ----------
+# Index/Home
 @app.route("/")
 def home():
     global current_user
@@ -21,16 +44,17 @@ def home():
 
 
 # ---------- Login/Signup ----------
+# Login
 @app.route("/login")
 def login():
     return render_template("login.html")
 
-
+# Sign Up
 @app.route("/signup")
 def signup():
     return render_template("signup.html")
 
-
+# Verify User
 @app.route("/verify-user", methods=['GET', 'POST'])
 def verify_user():
     global current_user
@@ -49,7 +73,7 @@ def verify_user():
     else:
         return render_template('login.html', message='Invalid Gmail or Password, Please Try Again')
 
-
+# Store User
 @app.route('/store-user', methods=['GET', 'POST'])
 def store_user():
     global current_user
@@ -70,7 +94,7 @@ def store_user():
     else:
         return render_template('login.html', message="Email Already In Use, Log In Instead?")
 
-
+# Log Out
 @app.route('/logout')
 def logout():
     global current_user
@@ -81,7 +105,9 @@ def logout():
 
     return render_template('login.html', message='Successfully Logged Out!')
 
+
 # ---------- Loadouts ----------
+# Loadouts 
 @app.route("/loadouts", methods=['GET', 'POST'])
 def loadouts():
     global current_user
@@ -96,47 +122,52 @@ def loadouts():
     else:
         return redirect(url_for('home'))
 
-# ===== Create/Edit/Delete In Development =====
+# New Loadout
 @app.route("/new-loadout", methods=['POST'])
 def new_loadout():
     global current_email
 
     loadout = [
-        slot_1 := request.form['slot_1'].title().strip(),
-        slot_2 := request.form['slot_2'].title().strip(),
-        slot_3 := request.form['slot_3'].title().strip(),
-        slot_4 := request.form['slot_4'].title().strip(),
-        slot_5 := request.form['slot_5'].title().strip(),
-        slot_6 := request.form['slot_6'].title().strip()
+        request.form['slot_1'].title().strip(),
+        request.form['slot_2'].title().strip(),
+        request.form['slot_3'].title().strip(),
+        request.form['slot_4'].title().strip(),
+        request.form['slot_5'].title().strip(),
+        request.form['slot_6'].title().strip()
     ]
 
-    normal_sprites = []
-
-    for pokemon in loadout:
-        search_name = pokemon.lower().replace(" ", "-")
-
-        try:
-            if search_name != "empty":
-                data = requests.get(f"https://pokeapi.co/api/v2/pokemon/{search_name}").json()
-                sprite = data['sprites']['other']['official-artwork']['front_default']
-                normal_sprites.append(sprite)
-            else:
-                normal_sprites.append("/static/images/Blank.jpeg")
-        except:
-            normal_sprites.append("/static/images/Blank.jpeg")
+    normal_sprites = get_normal_sprites(loadout)
 
     dbf.save_loadout(current_email, loadout, normal_sprites)
 
     return redirect(url_for('loadouts'))
 
-# @app.route("/edit-loadout/<rowid>")
-# def edit_loadout(rowid):
+# Edit Loadout
+@app.route("/edit-loadout/<rowid>")
+def edit_loadout(rowid):
+    row_information = dbf.find_row(rowid)
 
+    return render_template('edit-loadout.html', row_information=row_information[0])
 
-# @app.route("process-edit-loadout/<rowid>", methods=['POST'])
-# def process_edit_loadout(rowid):
+# Process Edit
+@app.route("/process-edit/<rowid>", methods=['POST'])
+def process_edit(rowid):
+    loadout = [
+        request.form['slot_1'].title().strip(),
+        request.form['slot_2'].title().strip(),
+        request.form['slot_3'].title().strip(),
+        request.form['slot_4'].title().strip(),
+        request.form['slot_5'].title().strip(),
+        request.form['slot_6'].title().strip()
+    ]
 
+    normal_sprites = get_normal_sprites(loadout)
 
+    dbf.update_loadout(rowid, loadout, normal_sprites)
+
+    return redirect(url_for('loadouts'))
+
+# Delete Loadout
 @app.route("/delete-loadout/<rowid>")
 def delete_loadout(rowid):
     dbf.delete_loadout(rowid)
