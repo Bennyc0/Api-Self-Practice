@@ -4,24 +4,37 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/616ed73eb6.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/static/styles.css">
     <title>Simple Pokedex</title>
 </head>
 <body>
-    <div>
+    <div class="container">
         <p>Log in as an existing user</p>
-        <p>{{ message }}</p>
 
-        <div>
+        <div class="message-container">
+            <p class="error-message">{{ message }}</p>
+        </div>
+
+        <div class="form-container">
             <form action="/verify-user" method="POST">
+                <label for="email">Enter Email:</label>
                 <input type="email" name="email" placeholder="Enter your email">
+
+                <br>
+
+                <label for="password">Enter Password:</label>
                 <input type="password" name="password" placeholder="Enter your password">
-                <button type="submit">Log in</button>
+
+                <a><button class="btn" type="submit"><i class="fa-solid fa-right-to-bracket"></i> Log in</button></a>
             </form>
         </div>
-        <div>
-            <a href="/"><button>Home</button></a>
-            <p>Don't have an account? <a href="/signup"><button>Sign up here!</button></a></p>
+
+        <div class="button-container">
+            <a href="/"><button class="btn"><i class="fa-solid fa-house"></i> Home</button></a>
+            <p>Don't have an account? <a href="/signup"><button class="btn"><i class="fa-solid fa-right-to-bracket fa-rotate-270"></i> Sign up here!</button></a></p>
         </div>
     </div>
+
 </body>
 </html>

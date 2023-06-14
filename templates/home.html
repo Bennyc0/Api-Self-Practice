@@ -1,35 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Simple Pokedex</title>
-        <link rel="stylesheet" href="/static/styles.css">
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/616ed73eb6.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/static/styles.css">
+    <title>Simple Pokedex</title>
+</head>
 
     <body>
-        <div>
-            {% if current_user == "" %}
-                <a href="/login"><button>Log In</button></a>
-                <a href="/signup"><button>Sign up here!</button></a>
+        <div class="container">
+            <div class="message-container">
+                <p class="error-message">{{ message }}</p>
+                <p class="message">{{ logout_message }}</p>
+                <p class="message">{{ welcome_message }}</p>
+            </div>
 
-            {% else %}
-                <a href="/loadouts"><button>View Your Saved Loadouts</button></a>
-                <a href="logout"><button>Log Out</button></a>
-            {% endif %}
-        </div>
+            <div class="form-container">
+                <form action="/search-result" method="POST" class="pkmn-search">
+                    <label for="input">Enter Pokemon Name:</label>
+                    <input id="input" type="text" name="input" placeholder="Pokemon Name">
 
-        <p>{{ welcome_message }}</p>
+                    <a><button class="btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i> Search</button></a>
+                </form>
+            </div>
 
-        <form action="/search-result" method="POST" class="pkmn-search">
-            <label for="input">Enter Pokemon Name</label><br>
-            <input class="input-box" id="input" type="text" name="input" placeholder="Pokemon Name">
-            <input class="search-button" type="submit" value="Search">
-        </form>
-        <p style="color:red;">{{ message }}</p>
+            <div class="button-container">
+                {% if current_user != "" %}
+                    <a href="/loadouts"><button class="btn"><i class="fa-solid fa-eye"></i> View Loadouts</button></a>
+                    <a href="logout"><button class="btn"><i class="fa-solid fa-right-from-bracket fa-rotate-180"></i> Log Out</button></a>
+    
+                {% else %}
+                    <a href="/login"><button class="btn"><i class="fa-solid fa-right-to-bracket"></i> Log In</button></a>
+                    <a href="/signup"><button class="btn"><i class="fa-solid fa-right-to-bracket fa-rotate-270"></i> Sign up</button></a>
+                {% endif %}
+            </div>
 
-        <div class="pokedex-image">
-            <img src="">
         </div>
     </body>
 </html>

@@ -1,107 +1,174 @@
+/*  ---------- Header ---------- */
+.header {
+
+  }
+
+/* ---------- Body ---------- */
 body {
+  background: url("images/LightBlueNeon.jpeg") no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+  justify-content: center;
   width: auto;
   height: auto;
-}
-/* Search Pokemon */
+  }
 
-/* Pokemon Type Colors */
+/* ---------- Pokemon Type Colors ---------- */
 .type-normal { 
   color: #A8A77A;
-}
+  }
 
 .type-fire { 
   color: #EE8130;
-}
+  }
 
 .type-water { 
   color: #6390F0;
-}
+  }
 
 .type-electric {
   color: #F7D02C;
-}
+  }
 
 .type-grass { 
   color: #7AC74C;
-}
+  }
 
 .type-ice { 
   color: #96D9D6;
-}
+  }
 
 .type-lighting { 
   color: #C22E28;
-}
+  }
 
 .type-poison { 
   color: #A33EA1;
-}
+  }
 
 .type-ground { 
   color: #E2BF65;
-}
+  }
 
 .type-flying { 
   color: #A98FF3;
-}
+  }
 
 .type-psychic { 
   color: #F95587;
-}
+  }
 
 .type-bug { 
   color: #A6B91A;
-}
+  }
 
 .type-rock { 
   color: #B6A136;
-}
+  }
 
 .type-ghost { 
   color: #735797;
-}
+  }
 
 .type-dragon { 
   color: #6F35FC;
-}
+  }
 
 .type-dark { 
   color: #705746;
-}
+  }
 
 .type-steel { 
   color: #B7B7CE;
-}
+  }
 
 .type-fairy { 
   color: #D685AD;
-}
+  }
 
+/* ---------- Containers ---------- */
+.container {
+  background-color: white;
 
-/* Pokemon Information Block */
+  margin-top: 5%;
+  margin-bottom: 5%;
+  width: auto;
+  padding: 20px;
+  border: 10px dodgerblue;
+  border-radius: 5px;
+  border-style: double;
+  }
 
+.message-container {
 
-/* Pokemon Sprites Gallery */
-.sprites-gallery {
+  }
+
+.form-container {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around
+  flex-direction: row;
+  text-align: justify;
+  }
+
+.button-container {
+  margin: 20px;
+  }
+
+/* ---------- Pictures ---------- */
+.info-sprite {
+  width: 30%;
 }
 
-.sprites-name {
-  
-}
+/* ---------- Loadouts ---------- */
+td, th {
+  border: 1px solid #dddddd;
+  text-align: center;
+  padding: 5px;
+  }
 
-.sprites-img {
-  width: 25%;
-  background-color: #999999;
-  border: 10px solid #FFDE00;
-  border-radius: 15px;
-  outline: 5px solid #3B4CCA;
-}
+tr:nth-child(even) {
+  background-color: #dddddd;
+  }
 
-/* Saved Loadouts */
 .loadout-img {
-  width: 50px;
-  height: 50px;
+  width: 50%;
 }
+/* ---------- Misc ---------- */
+hr {
+  background-image: linear-gradient(to right, red, gray);
+  height: 5px;
+  margin: 10px
+}
+
+.btn {
+  background-color: DodgerBlue;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  padding: 12px;
+  font-size: 16px;
+  cursor: pointer;
+  }
+
+a {
+  color: white;
+  padding: 5px;
+  }
+
+a :hover{
+  transition-duration: 1s;
+  background-color: blue;
+  box-shadow: 5px 5px 5px aquamarine;
+  }
+
+.message {
+  font-weight: bold;
+  }
+
+.error-message {
+  color: red;
+  }

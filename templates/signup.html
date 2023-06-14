@@ -4,22 +4,39 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/616ed73eb6.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/static/styles.css">
     <title>Simple Pokedex</title>
 </head>
 <body>
-    <p>Sign up as a new user</p>
-    <div>
-        <form action="/store-user" method="POST">
-            <input type="text" name="username" placeholder="Enter a username">
-            <input type="email" name="email" placeholder="Enter your email">
-            <input type="password" name="password" placeholder="Enter a password">
-            <button type="submit">Sign Up</button>
-        </form>
+    <div class="container">
+        <p>Sign up as a new user</p>
+        <p class="error-message">{{ message }}</p>
+
+        <div class="form-container">
+            <form action="/store-user" method="POST">
+                <label for="username">Enter Username:</label>
+                <input type="text" name="username" placeholder="Enter a username">
+
+                <br>
+
+                <label for="email">Enter Email:</label>
+                <input type="email" name="email" placeholder="Enter your email">
+
+                <br>
+
+                <label for="password">Enter Password:</label>
+                <input type="password" name="password" placeholder="Enter a password">
+                
+                <a><button class="btn" type="submit">Sign Up</button></a>
+            </form>
+        </div>
+
+        <div>
+            <a href="/"><button class="btn"><i class="fa-solid fa-house"></i> Home</button></a>
+            <p>Already have an account? <a href="/login"><button class="btn"><i class="fa-solid fa-right-to-bracket"></i> Log In Here!</button></a></p>
+        </div>
     </div>
 
-    <div>
-        <a href="/"><button>Home</button></a>
-        <p>Already have an account? <a href="/login"><button>Log In</button></a></p>
-    </div>
 </body>
 </html>

@@ -103,7 +103,7 @@ def logout():
     current_user = ""
     current_email = ""
 
-    return render_template('login.html', message='Successfully Logged Out!')
+    return render_template('home.html', current_user=current_user, logout_message='Successfully Logged Out!')
 
 
 # ---------- Loadouts ----------
@@ -177,88 +177,91 @@ def delete_loadout(rowid):
 # ---------- Search Result ----------
 @app.route("/search-result", methods=['GET', 'POST'])
 def search_result():
+    global current_user
+
     search_name = request.form["input"].lower().strip()
     search_name = search_name.replace(" ", "-")
 
     try:
         data = requests.get(f"https://pokeapi.co/api/v2/pokemon/{search_name}").json()
+
+        # Empty Lists
+        lists = [
+            type_list := [],
+            ability_list := [],
+            uneffective_list := [],
+            weakness_list := [],
+            immunity_list := []
+        ]
+
+        # Empty Lists Used For Processing
+        hidden_lists = [
+            temp_weakness_list := [],
+            advantage_list := []
+        ]
+
+        # Pokemon Type
+        for pkmn_type in data['types']:
+            type_list.append(pkmn_type['type']['name'].capitalize())
+
+        # Pokemon Abilties
+        for pkmn_abilities in data['abilities']:
+            ability_list.append(pkmn_abilities['ability']['name'].capitalize())
+
+        # Pokemon Individual Type Damage Relations
+        for searching_damage_relations in data['types']:
+            response = requests.get(f"https://pokeapi.co/api/v2/type/{searching_damage_relations['type']['name']}").json()
+            types = response['damage_relations']
+
+            for weak_to in types['double_damage_from']:
+                if weak_to['name'].capitalize() not in weakness_list:
+                    temp_weakness_list.append(weak_to['name'].capitalize())
+
+            for immune_to in types['no_damage_from']:
+                immunity_list.append(immune_to['name'].capitalize())
+
+            # Hidden Lists (Used to netraulize/remove types weaknesses)
+            for strong_to in types['double_damage_to']:
+                if strong_to['name'].capitalize() not in advantage_list:
+                    advantage_list.append(strong_to['name'].capitalize())
+
+            for half_from in types['half_damage_from']:
+                if half_from['name'].capitalize() not in advantage_list:
+                    advantage_list.append(half_from['name'].capitalize())
+
+        # Neutralizing/Removing Type Weaknesses
+        for weakness in temp_weakness_list:
+            if not (weakness in type_list or weakness in immunity_list or weakness in advantage_list or weakness in weakness_list):
+                weakness_list.append(weakness)
+                
+        # Removing Dashes in Certain Pokemon Names
+        pkmn_name = data['name'].title().replace("-", " ")
+
+        # Put Information Together
+        pkmn_info = {
+            "Name" : pkmn_name,
+            "Pokedex ID" : str(data['id']),
+            "Types" : type_list,
+            "Abilities": ", ".join(ability_list),
+            "Weak to" : weakness_list,
+        }
+
+        # Removing Pokedex ID For Special Forms
+        if int(pkmn_info.get("Pokedex ID")) > 1010:
+            pkmn_info.update({"Pokedex ID": "Unavailable"})
+
+        # Adding Immunity List
+        if len(immunity_list) > 0:
+            pkmn_info.update({"Immune to": immunity_list})
+
+        # Pokemon Images
+        normal_sprite = data['sprites']['other']['official-artwork']['front_default']
+        shiny_sprite = data['sprites']['other']['official-artwork']['front_shiny']
+
+        return render_template("search-result.html", current_user=current_user, pkmn_info=pkmn_info, normal_sprite=normal_sprite, shiny_sprite=shiny_sprite)
+
     except :
-        return render_template('search-result.html', message="No Search Results Found, Check Your Spelling")
-
-    # Empty Lists
-    lists = [
-        type_list := [],
-        ability_list := [],
-        uneffective_list := [],
-        weakness_list := [],
-        immunity_list := []
-    ]
-
-    # Empty Lists Used For Processing
-    hidden_lists = [
-        temp_weakness_list := [],
-        advantage_list := []
-    ]
-
-    # Pokemon Type
-    for pkmn_type in data['types']:
-        type_list.append(pkmn_type['type']['name'].capitalize())
-
-    # Pokemon Abilties
-    for pkmn_abilities in data['abilities']:
-        ability_list.append(pkmn_abilities['ability']['name'].capitalize())
-
-    # Pokemon Individual Type Damage Relations
-    for searching_damage_relations in data['types']:
-        response = requests.get(f"https://pokeapi.co/api/v2/type/{searching_damage_relations['type']['name']}").json()
-        types = response['damage_relations']
-
-        for weak_to in types['double_damage_from']:
-            if weak_to['name'].capitalize() not in weakness_list:
-                temp_weakness_list.append(weak_to['name'].capitalize())
-
-        for immune_to in types['no_damage_from']:
-            immunity_list.append(immune_to['name'].capitalize())
-
-        # Hidden Lists (Used to netraulize/remove types weaknesses)
-        for strong_to in types['double_damage_to']:
-            if strong_to['name'].capitalize() not in advantage_list:
-                advantage_list.append(strong_to['name'].capitalize())
-
-        for half_from in types['half_damage_from']:
-            if half_from['name'].capitalize() not in advantage_list:
-                advantage_list.append(half_from['name'].capitalize())
-
-    # Neutralizing/Removing Type Weaknesses
-    for weakness in temp_weakness_list:
-        if not (weakness in type_list or weakness in immunity_list or weakness in advantage_list or weakness in weakness_list):
-            weakness_list.append(weakness)
-            
-    # Removing Dashes in Certain Pokemon Names
-    pkmn_name = data['name'].title().replace("-", " ")
-
-    # Put Information Together
-    pkmn_info = {
-        "Name" : pkmn_name,
-        "Pokedex ID" : str(data['id']),
-        "Types" : type_list,
-        "Abilities": ", ".join(ability_list),
-        "Weak to" : weakness_list,
-    }
-
-    # Removing Pokedex ID For Special Forms
-    if int(pkmn_info.get("Pokedex ID")) > 1010:
-        pkmn_info.update({"Pokedex ID": "Unavailable"})
-
-    # Adding Immunity List
-    if len(immunity_list) > 0:
-        pkmn_info.update({"Immune to": immunity_list})
-
-    # Pokemon Images
-    normal_sprite = data['sprites']['other']['official-artwork']['front_default']
-    shiny_sprite = data['sprites']['other']['official-artwork']['front_shiny']
-
-    return render_template("search-result.html", pkmn_info=pkmn_info, normal_sprite=normal_sprite, shiny_sprite=shiny_sprite)
+        return render_template('home.html', message="No Search Results Found, Check Your Spelling")
 
 if __name__== '__main__':
-    app.run(debug=True, host='0.0.0.0', port='5000')
+    app.run(debug=True, host='0.0.0.0', port='9000')
