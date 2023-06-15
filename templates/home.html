@@ -11,6 +11,8 @@
 
     <body>
         <div class="container">
+            <h2>Simple Pokedex</h3>
+
             <div class="message-container">
                 <p class="error-message">{{ message }}</p>
                 <p class="message">{{ logout_message }}</p>
@@ -19,7 +21,7 @@
 
             <div class="form-container">
                 <form action="/search-result" method="POST" class="pkmn-search">
-                    <label for="input">Enter Pokemon Name:</label>
+                    <label for="input">Enter Pokemon Name: </label>
                     <input id="input" type="text" name="input" placeholder="Pokemon Name">
 
                     <a><button class="btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i> Search</button></a>

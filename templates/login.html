@@ -10,7 +10,7 @@
 </head>
 <body>
     <div class="container">
-        <p>Log in as an existing user</p>
+        <h3>Log in as an existing user</h3>
 
         <div class="message-container">
             <p class="error-message">{{ message }}</p>
@@ -18,12 +18,8 @@
 
         <div class="form-container">
             <form action="/verify-user" method="POST">
-                <label for="email">Enter Email:</label>
                 <input type="email" name="email" placeholder="Enter your email">
 
-                <br>
-
-                <label for="password">Enter Password:</label>
                 <input type="password" name="password" placeholder="Enter your password">
 
                 <a><button class="btn" type="submit"><i class="fa-solid fa-right-to-bracket"></i> Log in</button></a>

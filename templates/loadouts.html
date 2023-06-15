@@ -18,41 +18,41 @@
         <div class="form-container">
             <form action="/new-loadout" method="POST">
                 <div>
-                    <label for="slot_1">Enter Pokemon #1</label>
+                    <label for="slot_1">Enter Pokemon #1: </label>
                     <input type="text" id="slot_1" name="slot_1" placeholder="Enter Pokemon">
                 </div>
     
                 <div>
-                    <label for="slot_2">Enter Pokemon #2</label>
+                    <label for="slot_2">Enter Pokemon #2: </label>
                     <input type="text" id="slot_2" name="slot_2" value="Empty">
                 </div>
     
                 <div>
-                    <label for="slot_3">Enter Pokemon #3</label>
+                    <label for="slot_3">Enter Pokemon #3: </label>
                     <input type="text" id="slot_3" name="slot_3" value="Empty">
                 </div>
     
                 <div>
-                    <label for="slot_4">Enter Pokemon #4</label>
+                    <label for="slot_4">Enter Pokemon #4: </label>
                     <input type="text" id="slot_4" name="slot_4" value="Empty">
                 </div>
     
                 <div>
-                    <label for="slot_5">Enter Pokemon #5</label>
+                    <label for="slot_5">Enter Pokemon #5: </label>
                     <input type="text" id="slot_5" name="slot_5" value="Empty">
                 </div>
     
                 <div>
-                    <label for="slot_6">Enter Pokemon #6</label>
+                    <label for="slot_6">Enter Pokemon #6: </label>
                     <input type="text" id="slot_6" name="slot_6" value="Empty">
                 </div>
                 
-                <a><button class="btn" type="submit"><i class="fa-solid fa-plus"></i> Add Loadout</button></a>
+                <a><button class="btn" id="add-loadout" type="submit"><i class="fa-solid fa-plus"></i> Add Loadout</button></a>
             </form>
         </div>
         
         <div class="message-container">
-            <h1>Loadouts for {{ current_user }}</h1>
+            <h3>Loadouts for {{ current_user }}</h3>
         </div>
     
         <table>
@@ -74,9 +74,9 @@
                     <td>{{ instance['slot_5'] }} <img class="loadout-img" src="{{ instance['sprite_5'] }}"></td>
                     <td>{{ instance['slot_6'] }} <img class="loadout-img" src="{{ instance['sprite_6'] }}"></td>
     
-                    <td>
-                        <a href="{{ '/edit-loadout/%s' %instance.rowid }}"><button class="btn"><i class="fa fa-edit"></i> Edit Loadout</button></a>
-                        <a href="{{ '/delete-loadout/%s' %instance.rowid }}"><button class="btn"><i class="fa fa-trash"></i> Delete Loadout</button></a>
+                    <td class="button-container">
+                        <a href="{{ '/edit-loadout/%s' %instance.rowid }}"><button class="btn btn2"><i class="fa fa-edit"></i> Edit Loadout</button></a>
+                        <a href="{{ '/delete-loadout/%s' %instance.rowid }}"><button class="btn btn2"><i class="fa fa-trash"></i> Delete Loadout</button></a>
                     </td>
     
                 </tr>
